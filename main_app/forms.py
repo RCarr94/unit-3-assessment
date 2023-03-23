@@ -4,4 +4,4 @@ from .models import Widget
 class WidgetForm(ModelForm):
     class Meta:
         model = Widget
-        fields = '__all__'
+        fields = ['description', 'quantity']

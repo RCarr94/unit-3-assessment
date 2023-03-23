@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .forms import WidgetForm
 
 # Models
 from .models import Widget
-# from .forms import WidgetForm
+
 
 # Create your views here.
-
-class WidgetCreate(CreateView):
-    model = Widget
-    fields = '__all__'
-    success_url = '/'
     
 def index(request):
-    return render(request, 'index.html')
+    widget_form = WidgetForm()
+    widgets = Widget.objects.all()
+    return render(request, 'index.html', {'widget_form': widget_form, 'widgets': widgets})
+
+def add_widget(request):
+    form = WidgetForm(request.POST)
+    if form.is_valid():
+        new_widget = form.save()
+    return redirect('index')
